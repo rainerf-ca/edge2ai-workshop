@@ -203,7 +203,9 @@ image::images/set_schemaName.png[width=800]
 
 .. Click *Apply*
 
-. Connect the *Consume mqtt* input port to the *Set Schema Name* processor.
+. Connect the *Consume mqtt* input port to the *Set Schema Name* processor. Select *Message* in the *For Relationships* section of the Connection Details:
++
+image::images/create_mqtt_connection.png[width=800]
 
 . Add a _PublishKafkaRecord_2.0_ processor and configure it as follows:
 +
@@ -236,7 +238,7 @@ Property Name:  client.id
 Property Value: nifi-sensor-data
 ----
 +
-Add _schema.name_ property:
+Add _client.id_ property:
 +
 image::images/set_kafkaproducer_clientid.png[width=800]
 +
