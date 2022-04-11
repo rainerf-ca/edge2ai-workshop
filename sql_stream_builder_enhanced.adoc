@@ -382,9 +382,10 @@ CREATE TABLE weather_condition (
  'properties.bootstrap.servers' = 'edge2ai-0.dim.local:9092',
  'properties.group.id' = 'kafka_LookupWeatherCondition',
  'format' = 'csv',
+ 'properties.auto.offset.reset' = 'earliest',
  'csv.ignore-parse-errors' = 'true',
  'csv.allow-comments' = 'true'
-)
+);
 ----
 
 [[lab_6, Lab 6]]
