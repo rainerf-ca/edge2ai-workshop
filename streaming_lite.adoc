@@ -99,7 +99,7 @@ image::images/create_pgroup_lite.png[width=800]
 +
 ----
 Name: NiFi Registry
-URL:  http://edge2ai-1.dim.local:18080
+URL:  http://edge2ai-0.dim.local:18080
 ----
 +
 image::images/global_controller_settings.png[width=800]
@@ -123,14 +123,15 @@ Flow Name: SensorProcessGroup
 +
 [source]
 ----
-URL: http://edge2ai-1.dim.local:7788/api/v1
+Schema Registry URL: http://edge2ai-0.dim.local:7788/api/v1
 ----
+
 +
 image::images/added_hwx_sr_service.png[width=800]
 
 . Click on the _lightning bolt_ icon (image:images/enable_icon.png[width=20]) to *enable* the *HortonworksSchemaRegistry* Controller Service.
 
-. Still on the *Controller Services* screen, let's add two additional services to handle the reading and writing of JSON records. Click on the image:images/plus_button.png[width=25] button and add the following two services:
+. Still on the *Controller Services* screen, let's add two additional services to handle the reading and writing of JSON records. Click the *`+`* icon and add the following two services:
 ** *`JsonTreeReader`*, with the following properties:
 +
 [source]
@@ -145,7 +146,6 @@ Schema Name:            ${schema.name} -> already set by default!
 [source]
 ----
 Schema Write Strategy:  HWX Schema Reference Attributes
-Schema Registry:        HortonworksSchemaRegistry
 ----
 +
 _JsonRecordSetWriter_ definition:
@@ -169,7 +169,7 @@ image::images/add_ConsumeMQTT_lite.png[width=800]
 +
 [source]
 ----
-Broker URI:                            tcp://edge2ai-1.dim.local:1883
+Broker URI:                            tcp://edge2ai-0.dim.local:1883
 Client ID:                             sensor-iot
 Topic Filter:                          iot/#
 Max Queue Size:                        60
@@ -203,7 +203,9 @@ image::images/set_schemaName.png[width=800]
 
 .. Click *Apply*
 
-. Connect the *Consume mqtt* input port to the *Set Schema Name* processor.
+. Connect the *Consume mqtt* input port to the *Set Schema Name* processor. Select *Message* in the *For Relationships* section of the Connection Details:
++
+image::images/create_mqtt_connection.png[width=800]
 
 . Add a _PublishKafkaRecord_2.0_ processor and configure it as follows:
 +
@@ -218,7 +220,7 @@ Name:                                  Publish to Kafka topic: iot
 +
 [source]
 ----
-Kafka Brokers:                         edge2ai-1.dim.local:9092
+Kafka Brokers:                         edge2ai-0.dim.local:9092
 Topic Name:                            iot
 Record Reader:                         JsonTreeReader
 Record Writer:                         JsonRecordSetWriter
@@ -236,7 +238,7 @@ Property Name:  client.id
 Property Value: nifi-sensor-data
 ----
 +
-Add _schema.name_ property:
+Add _client.id_ property:
 +
 image::images/set_kafkaproducer_clientid.png[width=800]
 +
@@ -360,7 +362,7 @@ Name: Consume Kafka iot messages
 +
 [source]
 ----
-Kafka Brokers:                        edge2ai-1.dim.local:9092
+Kafka Brokers:                        edge2ai-0.dim.local:9092
 Topic Name(s):                        iot
 Topic Name Format:                    names
 Record Reader:                        JsonTreeReader - With schema identifier
@@ -390,7 +392,7 @@ Name: Write to Kudu
 +
 [source]
 ----
-Kudu Masters:     edge2ai-1.dim.local:7051
+Kudu Masters:     edge2ai-0.dim.local:7051
 Table Name:       impala::default.sensors
 Record Reader:    JsonTreeReader - With schema identifier
 ----
