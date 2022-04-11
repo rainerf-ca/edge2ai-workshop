@@ -1,0 +1,26 @@
+evalJSON:
+sensor_id <<-- $.sensor_id
+
+Lookup:
+geo-location <<-- ${sensor_id}
+
+UpdateRecord:
+/city <<-- ${geo-location:jsonPath('$.city')}
+/lat <<-- ${geo-location:jsonPath('$.lat')}
+/lon <<-- ${geo-location:jsonPath('$.lon')}
+
+
+mongo DB:
+
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://centos:supersecret1@lookup.ruonq.mongodb.net/lookup?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+
+Result:
+[{"sensor_id":1,"sensor_ts":1604481155045179,"is_healthy":null,"response":null,"sensor_0":760,"sensor_1":20,"sensor_2":3,"sensor_3":34,"sensor_4":2,"sensor_5":86,"sensor_6":41,"sensor_7":87,"sensor_8":34,"sensor_9":2,"sensor_10":10,"sensor_11":4,"city":"Linz","lat":48.30639,"lon":14.28611}]
