@@ -485,7 +485,7 @@ where iot.sensor_id = refdata.sensor_id
 == Lab 8 - Materialized Views
 *Materialized Views* are in synchronization with the mutating stream - they are updated by a primary key as data flows through the system. The data is updated by a given key, and it represents the latest view of the data by key.
 
-. With the SQL from the last lab still running click in the *Console* on *Materialized Views*
+. Stop the SQL from the last lab and click in the *Console* on *Materialized Views*
 +
 image::images/ssb-mv-base.png[width=800]
 +
@@ -509,6 +509,8 @@ image::images/ssb-mv-addQuery.png[width=400]
 +
 .. REST endpoint is exposed as: <URI>/api/v1/query/<job id>/sensorid/*{sensor_id}*?key=<API Key>
 .. invoke it with: sample /api/v1/query/5195/sensorid/*12*?key=AbzRvs....
+
+. Back in the *SQL tab.* restart job with the SQL from the last lab again
 
 [[lab_9, Lab 9]]
 == Lab 9 - Perform an HTTP action
@@ -577,9 +579,10 @@ image::images/ssb-webhooktable-requesttemplate.png[width=600]
 +
 [source,sql]
 ----
-select sensor_id, sensor_0
-from iot_enriched_source
-where sensor_0 >= 8000
+INSERT INTO webhook_table
+SELECT sensor_id, sensor_0
+FROM iot_enriched_source
+WHERE sensor_0 >= 8000
 ----
 +
 image::images/ssb-webhook-sql.png[width=600]
