@@ -243,7 +243,7 @@ SELECT
   min(`sensor_6`) as sensorMin,
   max(`sensor_6`) as sensorMax,
   sum(case when `sensor_6` > 70 then 1 else 0 end) as sensorGreaterThan60
-FROM `IoT_Raw` i
+FROM `iot_enriched_source` i
 JOIN `RefData_GeoLocation` FOR SYSTEM_TIME AS OF i.`eventTimestamp` AS geo
 ON i.`sensor_id` = geo.`loc_id`
 GROUP BY
